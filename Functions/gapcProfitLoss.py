@@ -21,7 +21,16 @@ def gapcprofitlosscalc(gapcopenpos,
     gapcProfitLoss = []
     gapcTradeObjectList = []
     forCheckTP = []
+    stoplosscheck = []
+    stoplosscheckrun = []
+    stoplosscheckboon = False
+    stoplosstimecheck = []
+    stoplosstimecheckrun = []
+    stoplosstimecheckboon = False
+    tpposcheckrun = []
+    tpposcheckrunbool = False
     count = 0
+
     for items in gapcopenpos:
         if items != 'NONE':
             # if there is an open position gapc trade is true
@@ -73,6 +82,18 @@ def gapcprofitlosscalc(gapcopenpos,
                             #
                             # Trade went through TP before going through SL
                             #
+                            # I first get the value for stoploss time
+                            stoplosstimecheck = extractors.stringdtimextractor(stoplosstime[count])
+                            increments = 0
+                            for timeelements in stoplosstimecheck:
+                                if increments == positionsslaftertradeopen[0]:
+                                    stoplosstimecheckrun.append(timeelements)
+                                    stoplosstimecheckboon = True
+                                increments = increments + 1
+                            if stoplosstimecheckboon:
+                                stoplosstimenafteropen = stoplosstimecheckrun[0]
+                            else:
+                                stoplosstimenafteropen = 'NONE'
                             AP = ('profit', rvalue)
                             gapcProfitLoss.append(AP)
                             gapcTradeObject = objectConstructors.gapcTradeObjects('Block 1.0',
@@ -85,11 +106,11 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                                   gapctakeprofitvalue[count],
                                                                                   gapcstoplossval[count],
                                                                                   positionsTPaftertradeopen[0],
-                                                                                  gapcstoplossposstr[count],
+                                                                                  positionsslaftertradeopen[0],
                                                                                   gapclosetime[count],
                                                                                   gapcopentime[count],
                                                                                   takeprofittime[count],
-                                                                                  stoplosstime[count],
+                                                                                  stoplosstimenafteropen,
                                                                                   'take profit position after trade is opened is < than stop loss position after trade is opened')
 
                             gapcTradeObjectList.append(gapcTradeObject)
@@ -100,6 +121,17 @@ def gapcprofitlosscalc(gapcopenpos,
                             #
                             # SL was was hit before the TP
                             #
+                            stoplosstimecheck = extractors.stringdtimextractor(stoplosstime[count])
+                            increments = 0
+                            for timeelements in stoplosstimecheck:
+                                if increments == positionsslaftertradeopen[0]:
+                                    stoplosstimecheckrun.append(timeelements)
+                                    stoplosstimecheckboon = True
+                                increments = increments + 1
+                            if stoplosstimecheckboon:
+                                stoplosstimenafteropen = stoplosstimecheckrun[0]
+                            else:
+                                stoplosstimenafteropen = 'NONE'
                             gapcProfitLoss.append('LOSS')
                             gapcTradeObject = objectConstructors.gapcTradeObjects('Block 2.0',
                                                                                   'GAPC',
@@ -111,17 +143,29 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                                   gapctakeprofitvalue[count],
                                                                                   gapcstoplossval[count],
                                                                                   positionsTPaftertradeopen[0],
-                                                                                  gapcstoplossposstr[count],
+                                                                                  positionsslaftertradeopen[0],
                                                                                   gapclosetime[count],
                                                                                   gapcopentime[count],
                                                                                   takeprofittime[count],
-                                                                                  stoplosstime[count],
+                                                                                  stoplosstimenafteropen,
                                                                                   'stop loss position after trade is opened < take profit position after trade is opened is')
                             gapcTradeObjectList.append(gapcTradeObject)
                             myBool = True
                             checkBool = True
                         if positionsslaftertradeopen[0] == positionsTPaftertradeopen[0]:
                             gapcProfitLoss.append('SIM')
+                            stoplosstimecheck = extractors.stringdtimextractor(stoplosstime[count])
+                            increments = 0
+                            for timeelements in stoplosstimecheck:
+                                if increments == positionsslaftertradeopen[0]:
+                                    stoplosstimecheckrun.append(timeelements)
+                                    stoplosstimecheckboon = True
+                                increments = increments + 1
+                            if stoplosstimecheckboon:
+                                stoplosstimenafteropen = stoplosstimecheckrun[0]
+                            else:
+                                stoplosstimenafteropen = 'NONE'
+                            gapcProfitLoss.append('LOSS')
                             gapcTradeObject = objectConstructors.gapcTradeObjects('Block 3.0',
                                                                                   'GAPC',
                                                                                   datelistdf2[count],
@@ -132,11 +176,11 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                                   gapctakeprofitvalue[count],
                                                                                   gapcstoplossval[count],
                                                                                   positionsTPaftertradeopen[0],
-                                                                                  gapcstoplossposstr[count],
+                                                                                  positionsslaftertradeopen[0],
                                                                                   gapclosetime[count],
                                                                                   gapcopentime[count],
                                                                                   takeprofittime[count],
-                                                                                  stoplosstime[count],
+                                                                                  stoplosstimenafteropen,
                                                                                   'Price hits SL & TP in same candle')
                             gapcTradeObjectList.append(gapcTradeObject)
                             myBool = True
@@ -145,6 +189,36 @@ def gapcprofitlosscalc(gapcopenpos,
                         #
                         # Here there are values for TP and SL but no values for TP AFTER trade open
                         #
+                        # The following logic I could add in the beggining of the loop but I find this is easier to
+                        # navigate and problem solve I extract stoploss pos for after
+                        if gapcstoplossposstr[count] != 'NONE':
+                            stoplosscheck = extractors.stringpositionextractor(gapcstoplossposstr[count])
+                            for stops in stoplosscheck:
+                                if items < stops:
+                                    stoplosscheckrun.append(stops)
+                                    stoplosscheckboon = True
+                            if stoplosscheckboon:
+                                stoplosspositionafteropen = stoplosscheckrun[0]
+                            else:
+                                stoplosspositionafteropen = 'NONE'
+                        else:
+                            stoplosspositionafteropen = 'NONE'
+                        # I extract stoploss time value for after open
+                        if stoplosspositionafteropen != 'NONE':
+                            stoplosstimecheck = extractors.stringdtimextractor(stoplosstime[count])
+                            increments = 0
+                            for timeelements in stoplosstimecheck:
+                                if increments == stoplosspositionafteropen:
+                                    stoplosstimecheckrun.append(timeelements)
+                                    stoplosstimecheckboon = True
+                                increments = increments + 1
+                            if stoplosstimecheckboon:
+                                stoplosstimenafteropen = stoplosstimecheckrun[0]
+                            else:
+                                stoplosstimenafteropen = 'NONE'
+                        else:
+                            stoplosstimenafteropen = 'NONE'
+
                         gapcProfitLoss.append('LOSS')
                         gapcTradeObject = objectConstructors.gapcTradeObjects('Block 4.0',
                                                                               'GAPC',
@@ -156,18 +230,46 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                               gapctakeprofitvalue[count],
                                                                               gapcstoplossval[count],
                                                                               gapctakeprofitposstr[count],
-                                                                              gapcstoplossposstr[count],
+                                                                              stoplosspositionafteropen,
                                                                               gapclosetime[count],
                                                                               gapcopentime[count],
                                                                               takeprofittime[count],
-                                                                              stoplosstime[count],
+                                                                              stoplosstimenafteropen,
                                                                               'Price reaches take profit before opening the trade. The trade is opened, but then goes to stop loss after')
                         gapcTradeObjectList.append(gapcTradeObject)
                 else:
                     #
                     #  We have no value for take profit but plenty values for sl. closeboon is true
                     #
-                    # print('-------------')
+                    # I extract stoploss value for after open
+                    if gapcstoplossposstr[count] != 'NONE':
+                        stoplosscheck = extractors.stringpositionextractor(gapcstoplossposstr[count])
+                        for stops in stoplosscheck:
+                            if items < stops:
+                                stoplosscheckrun.append(stops)
+                                stoplosscheckboon = True
+                        if stoplosscheckboon:
+                            stoplosspositionafteropen = stoplosscheckrun[0]
+                        else:
+                            stoplosspositionafteropen = 'NONE'
+                    else:
+                        stoplosspositionafteropen = 'NONE'
+                    # I extract stoploss time value for after open
+                    if stoplosspositionafteropen != 'NONE':
+                        stoplosstimecheck = extractors.stringdtimextractor(stoplosstime[count])
+                        increments = 0
+                        for timeelements in stoplosstimecheck:
+                            if increments == stoplosspositionafteropen:
+                                stoplosstimecheckrun.append(timeelements)
+                                stoplosstimecheckboon = True
+                            increments = increments + 1
+                        if stoplosstimecheckboon:
+                            stoplosstimenafteropen = stoplosstimecheckrun[0]
+                        else:
+                            stoplosstimenafteropen = 'NONE'
+                    else:
+                        stoplosstimenafteropen = 'NONE'
+
                     gapcProfitLoss.append('LOSS')
                     gapcTradeObject = objectConstructors.gapcTradeObjects('Block 5.0',
                                                                           'GAPC',
@@ -179,11 +281,11 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                           gapctakeprofitvalue[count],
                                                                           gapcstoplossval[count],
                                                                           gapctakeprofitposstr[count],
-                                                                          gapcstoplossposstr[count],
+                                                                          stoplosspositionafteropen,
                                                                           gapclosetime[count],
                                                                           gapcopentime[count],
                                                                           takeprofittime[count],
-                                                                          stoplosstime[count],
+                                                                          stoplosstimenafteropen,
                                                                           'No take profit values, but plenty of stop loss values')
                     gapcTradeObjectList.append(gapcTradeObject)
                     myBool = True
@@ -195,6 +297,16 @@ def gapcprofitlosscalc(gapcopenpos,
                 # if there is any value for take profit after trade open we are good
                 if gapctakeprofitposstr[count] != 'NONE':
                     AP = ('profit', rvalue)
+                    # Extract the takeprofit position
+                    tpposcheck = extractors.stringpositionextractor(gapctakeprofitposstr[count])
+                    for elements in tpposcheck:
+                        if elements > opennum:
+                            tpposcheckrun.append(elements)
+                            tpposcheckrunbool = True
+                    if tpposcheckrunbool:
+                        tpposition = tpposcheckrun[0]
+                    else:
+                        tpposition = 'NONE'
                     gapcTradeObject = objectConstructors.gapcTradeObjects('Block 6.0',
                                                                           'GAPC',
                                                                           datelistdf2[count],
@@ -204,7 +316,7 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                           gapcopenpos[count],
                                                                           gapctakeprofitvalue[count],
                                                                           gapcstoplossval[count],
-                                                                          gapctakeprofitposstr[count],
+                                                                          tpposition,
                                                                           gapcstoplossposstr[count],
                                                                           gapclosetime[count],
                                                                           gapcopentime[count],
@@ -248,6 +360,12 @@ def gapcprofitlosscalc(gapcopenpos,
         positionsTPaftertradeopen.clear()
         forCheckTP.clear()
         positionsslaftertradeopen.clear()
+        stoplosscheckrun.clear()
+        stoplosstimecheckrun.clear()
+        tpposcheckrun.clear()
+        tpposcheckrunbool = False
+        stoplosscheckboon = False
+        stoplosstimecheckboon = False
         closeboon = False
         posTP = False
     return gapcProfitLoss, gapcTradeObjectList

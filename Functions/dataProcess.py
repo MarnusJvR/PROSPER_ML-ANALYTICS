@@ -328,6 +328,7 @@ def readDataframe(pair):
             print('gapcopentime ' + str(items.gapcopentime))
             print('takeprofittime ' + str(items.takeprofittime))
             print('Stoploss time' + items.stoplossstime)
+            print('Comment ' + items.comment)
             print('--------------------')
     print('----------------------------END------------------------------------------------')
     #
