@@ -1,9 +1,19 @@
-def gapctakeprofitposcalculator(gapclasslist,gapsizelist,gapctakeprofitvalue,rangehigh,stopnumber,low,high,mytime):
+def gapctakeprofitposcalculator(gapclasslist,
+                                gapsizelist,
+                                gapctakeprofitvalue,
+                                rangehigh,
+                                stopnumber,
+                                low,
+                                high,
+                                mytime,
+                                gapcopenpos):
     forgaplist = []
     takeprofitpos = []
     takeprofitposstr = []
     timetracker = []
     timetrackerstr = []
+    opentimetracker = []
+    opentimebool = False
     tptime = []
     counter = 0
     for gaps in gapclasslist:
@@ -15,6 +25,12 @@ def gapctakeprofitposcalculator(gapclasslist,gapsizelist,gapctakeprofitvalue,ran
                     if counter + i < stopnumber:
                         if high[counter + i] >= reverseTP:
                             forgaplist.append(i)
+                            openpos = gapcopenpos[counter]
+                            if openpos != 'NONE':
+                                if i > openpos:
+                                    opentime = mytime[counter + i]
+                                    opentimetracker.append(opentime)
+                                    opentimebool = True
                             time = mytime[counter + i]
                             timetracker.append(time)
                             gapB = True
@@ -24,9 +40,11 @@ def gapctakeprofitposcalculator(gapclasslist,gapsizelist,gapctakeprofitvalue,ran
                     tptime.append('NONE')
                     timetrackerstr.append('NONE')
                 else:
-                    mynum = forgaplist[0]
-                    mynum2 = timetracker[0]
-                    tptime.append(mynum2)
+                    if opentimebool:
+                        mynum2 = opentimetracker[0]
+                        tptime.append(mynum2)
+                    else:
+                        tptime.append('NONE')
                     timestr = ''
                     for numbers in timetracker:
                         timestr = timestr + str(numbers) + ','
@@ -35,12 +53,18 @@ def gapctakeprofitposcalculator(gapclasslist,gapsizelist,gapctakeprofitvalue,ran
                     for numbers in forgaplist:
                         reverseSting = reverseSting + str(numbers) + ','
                     takeprofitposstr.append(reverseSting)
+                    mynum = forgaplist[0]
                     takeprofitpos.append(mynum)
             if gapsizeCheck < 0:
                 for i in range(0, rangehigh):
                     if counter + i < stopnumber:
                         if low[counter + i] <= reverseTP:
                             forgaplist.append(i)
+                            if openpos != 'NONE':
+                                if i > openpos:
+                                    opentime = mytime[counter + i]
+                                    opentimetracker.append(opentime)
+                                    opentimebool = True
                             time = mytime[counter + i]
                             timetracker.append(time)
                             gapB = True
@@ -50,9 +74,11 @@ def gapctakeprofitposcalculator(gapclasslist,gapsizelist,gapctakeprofitvalue,ran
                     tptime.append('NONE')
                     timetrackerstr.append('NONE')
                 else:
-                    mynum = forgaplist[0]
-                    mynum2 = timetracker[0]
-                    tptime.append(mynum2)
+                    if opentimebool:
+                        mynum2 = opentimetracker[0]
+                        tptime.append(mynum2)
+                    else:
+                        tptime.append('NONE')
                     timestr = ''
                     for numbers in timetracker:
                         timestr = timestr + str(numbers) + ','
@@ -61,6 +87,7 @@ def gapctakeprofitposcalculator(gapclasslist,gapsizelist,gapctakeprofitvalue,ran
                     for numbers in forgaplist:
                         reverseSting = reverseSting + str(numbers) + ','
                     takeprofitposstr.append(reverseSting)
+                    mynum = forgaplist[0]
                     takeprofitpos.append(mynum)
         else:
             takeprofitpos.append('NONE')
@@ -69,6 +96,8 @@ def gapctakeprofitposcalculator(gapclasslist,gapsizelist,gapctakeprofitvalue,ran
             timetrackerstr.append('NONE')
         gapB = False
         counter = counter + 1
+        opentimebool = False
+        opentimetracker.clear()
         forgaplist.clear()
         timetracker.clear()
         mynum = 0

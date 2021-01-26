@@ -82,7 +82,7 @@ from Functions import gapfiftyProfitLoss
 # gapcTakeProfitValue: contains the take profit values for GAPC
 # gapcStoplossValueList: Stoploss values for GAPC strategy
 
-
+# ----FTOW variables----
 
 # -----PROCESS-----
 # 1- Pairname recieved.
@@ -263,14 +263,16 @@ def readDataframe(pair):
     print('--------------------------------')
     print('Calling the price move through open calculator')
     gapfiftyOpenPos, priceMoveOpenPosition, gapFiftyOpenTime, gapFiftyOpenTimeStr = priceMoveThroughGapOpenPositions.priceTrackGapOpening(
-        gapClass, gapSizeList, openValueListDf2, halveHit, rangeHigh, stopNumber, Low, High, myTime)
+        gapClass, gapSizeList, openValueListDf2, halveHit, rangeHigh, stopNumber, Low, High, myTime, halveHitPosition)
+
     #
     # 18. Check if price price reached Take Profit for GAPFIFTY
     #
     print('--------------------------------')
     print('Calling the GAPFIFTY take profit calculator')
     gapfiftytpPos, gapfiftytpstr, gapfiftytpvalue, gapfiftytptime, gapfiftyTpTimeStr = gapFiftyTakeProfitPositions.gapfiftytpcalculator(
-        gapClass, gapSizeList, openValueListDf2, rangeHigh, stopNumber, Low, High, myTime)
+        gapClass, gapSizeList, openValueListDf2, rangeHigh, stopNumber, Low, High, myTime, gapfiftyOpenPos)
+
     #
     # 19. Determine when GAPFIFTY strategy opened (GAPFIFTY IFENTIFYER)
     #
@@ -288,7 +290,8 @@ def readDataframe(pair):
                                                                                                              rangeHigh,
                                                                                                              stopNumber,
                                                                                                              Low, High,
-                                                                                                             myTime)
+                                                                                                             myTime,
+                                                                                                             gapcOpenPos)
     #
     # 22. Calculate Profit for GAPC
     #
@@ -310,30 +313,21 @@ def readDataframe(pair):
     for items in gapcObjectList:
         if items != 'NONE':
             print('--------------------')
+            print(items.block)
             print(items.date)
             print(items.name)
             print(items.profitloss)
-            print('rvalue')
-            print(items.rvalue)
-            print('gapclosepos')
-            print(items.gapclosepos)
-            print('gapcopenpos')
-            print(items.gapcopenpos)
-            print('tpvalue')
-            print(items.tpvalue)
-            print('slvalue')
-            print(items.slvalue)
-            print('tppos')
-            print(items.tppos)
-            print('slpos')
-            print(items.slpos)
-            print('gapclosetime')
-            print(items.gapclosetime)
-            print('gapcopentime')
-            print(items.gapcopentime)
-            print('takeprofittime')
-            print(items.takeprofittime)
-            print(items.stoplossstime)
+            print('rvalue ' + str(items.rvalue))
+            print('gapclosepos ' + str(items.gapclosepos))
+            print('gapcopenpos ' + str(items.gapcopenpos))
+            print('tpvalue ' + str(items.tpvalue))
+            print('slvalue ' + str(items.slvalue))
+            print('tppos ' + str(items.tppos))
+            print('slpos ' + str(items.slpos))
+            print('gapclosetime ' + str(items.gapclosetime))
+            print('gapcopentime ' + str(items.gapcopentime))
+            print('takeprofittime ' + str(items.takeprofittime))
+            print('Stoploss time' + items.stoplossstime)
             print('--------------------')
     print('----------------------------END------------------------------------------------')
     #
@@ -353,42 +347,29 @@ def readDataframe(pair):
                                                                                                  gapFiftyOpenTime,
                                                                                                  halveHitTimeStr,
                                                                                                  gapFiftyStoplossTimeStrings)
-    print(len(str(gapcProfitLossList)))
-    print(len(str(gapcObjectList)))
-    print(len(str(gapFiftyprofitLossList)))
-    print(len(str(gapfiftyObjectList)))
+
     print('----------------------------GAPC FIFTY------------------------------------------------')
     for items in gapfiftyObjectList:
         if items != 'NONE':
             print('--------------------')
+            print(items.block)
             print(items.date)
             print(items.name)
             print(items.profitloss)
-            print('rvalue')
-            print(items.rvalue)
-            print('fiftypercentvalue')
-            print(items.fiftypercentvalue)
-            print('fiftypercentpos')
-            print(items.fiftypercentpos)
-            print('gapopenvalue')
-            print(items.gapopenvalue)
-            print('tradeopenpos')
-            print(items.tradeopenpos)
-            print('slvalue')
-            print(items.slvalue)
-            print('tpvalue')
-            print(items.tpvalue)
-            print('tppos')
-            print(items.tppos)
-            print('gapfiftytptime')
-            print(items.gapfiftytptime)
-            print('takeprofittime')
-            print(items.gapFiftyOpenTime)
-            print('halvehittime')
-            print(items.halvehittime)
-            print('stoplosstimstr')
-            print('comment')
-            print(items.comment)
+            print('rvalue' + str(items.rvalue))
+            print('fiftypercentvalue ' + str(items.fiftypercentvalue))
+            print('fiftypercentpos ' + str(items.fiftypercentpos))
+            print('gapopenvalue ' + str(items.gapopenvalue))
+            print('tradeopenpos ' + str(items.tradeopenpos))
+            print('slvalue ' + str(items.slvalue))
+            print('tpvalue ' + str(items.tpvalue))
+            print('SLPOS ' + str(items.slpos))
+            print('tppos ' + str(items.tppos))
+            print('gapfiftytptime ' + str(items.gapfiftytptime))
+            print('gapFiftyOpenTime ' + str(items.gapFiftyOpenTime))
+            print('halvehittime ' + str(items.halvehittime))
+            print('stoplosstimstr ' + items.stoplosstimstr)
+            print('comment ' + items.comment)
             print('--------------------')
     print('----------------------------END------------------------------------------------')
 

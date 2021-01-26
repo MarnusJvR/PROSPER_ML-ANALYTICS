@@ -1,5 +1,6 @@
 class gapcTradeObjects:
     def __init__(self,
+                 block,
                  name,
                  date,
                  profitLoss,
@@ -13,7 +14,9 @@ class gapcTradeObjects:
                  gapclosetime,
                  gapcopentime,
                  takeprofittime,
-                 stoplossstime):
+                 stoplossstime,
+                 comment):
+        self.block = block
         self.name = name
         self.date = date
         self.profitloss = profitLoss
@@ -28,10 +31,12 @@ class gapcTradeObjects:
         self.gapcopentime = gapcopentime
         self.takeprofittime = takeprofittime
         self.stoplossstime = stoplossstime
+        self.comment = comment
 
 
 class gapfiftyTradeObjects:
     def __init__(self,
+                 block,
                  name,
                  date,
                  profitLoss,
@@ -49,6 +54,7 @@ class gapfiftyTradeObjects:
                  halvehittime,
                  stoplosstimstr,
                  comment):
+        self.block = block
         self.name = name
         self.date = date
         self.profitloss = profitLoss

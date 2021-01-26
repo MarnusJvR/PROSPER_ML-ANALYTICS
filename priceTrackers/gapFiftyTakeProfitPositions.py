@@ -1,4 +1,4 @@
-def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumber,low,high,mytime):
+def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumber,low,high,mytime, gapfiftyopenpos):
     print(' GAPFIFTY take profit calculator call recieved')
     # GAPFIFTY drive take profit positions
     # price goes to 50% then return to TP
@@ -9,6 +9,8 @@ def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumbe
     timetracker = []
     timetrackerstr = []
     gapfiftytptime = []
+    opentimetracker = []
+    opentimebool = False
     counter = 0
     for gaps in gapclasslist:
         gapsizeCheck = gapsizelist[counter]
@@ -19,6 +21,12 @@ def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumbe
                     if counter + i < stopnumber:
                         if high[counter + i] >= reverseTP:
                             forgaplist.append(i)
+                            openpos = gapfiftyopenpos[counter]
+                            if openpos != 'NONE':
+                                if i > openpos:
+                                    opentime = mytime[counter + i]
+                                    opentimetracker.append(opentime)
+                                    opentimebool = True
                             time = mytime[counter + i]
                             timetracker.append(time)
                             gapB = True
@@ -29,9 +37,11 @@ def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumbe
                     gapfiftytptime.append('NONE')
                     timetrackerstr.append('NONE')
                 else:
-                    mynum = forgaplist[0]
-                    mynum2 = timetracker[0]
-                    gapfiftytptime.append(mynum2)
+                    if opentimebool:
+                        mynum2 = opentimetracker[0]
+                        gapfiftytptime.append(mynum2)
+                    else:
+                        gapfiftytptime.append('NONE')
                     timestr = ''
                     for numbers in timetracker:
                         timestr = timestr + str(numbers) + ','
@@ -40,6 +50,7 @@ def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumbe
                     for numbers in forgaplist:
                         reverseSting = reverseSting + str(numbers) + ','
                     gapfiftytpstr.append(reverseSting)
+                    mynum = forgaplist[0]
                     gapfiftytp.append(mynum)
                     gapfiftytpvalue.append(reverseTP)
             if gapsizeCheck < 0:
@@ -48,6 +59,17 @@ def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumbe
                     if counter + i < stopnumber:
                         if low[counter + i] <= reverseTP:
                             forgaplist.append(i)
+                            openpos = gapfiftyopenpos[counter]
+                            forgaplist.append(i)
+                            openpos = gapfiftyopenpos[counter]
+                            if openpos != 'NONE':
+                                if i > openpos:
+                                    opentime = mytime[counter + i]
+                                    opentimetracker.append(opentime)
+                                    opentimebool = True
+                            time = mytime[counter + i]
+                            timetracker.append(time)
+                            gapB = True
                             time = mytime[counter + i]
                             timetracker.append(time)
                             gapB = True
@@ -58,9 +80,11 @@ def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumbe
                     gapfiftytptime.append('NONE')
                     timetrackerstr.append('NONE')
                 else:
-                    mynum = forgaplist[0]
-                    mynum2 = timetracker[0]
-                    gapfiftytptime.append(mynum2)
+                    if opentimebool:
+                        mynum2 = opentimetracker[0]
+                        gapfiftytptime.append(mynum2)
+                    else:
+                        gapfiftytptime.append('NONE')
                     timestr = ''
                     for numbers in timetracker:
                         timestr = timestr + str(numbers) + ','
@@ -69,6 +93,7 @@ def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumbe
                     for numbers in forgaplist:
                         reverseSting = reverseSting + str(numbers) + ','
                     gapfiftytpstr.append(reverseSting)
+                    mynum = forgaplist[0]
                     gapfiftytp.append(mynum)
                     gapfiftytpvalue.append(reverseTP)
         else:
@@ -81,5 +106,7 @@ def gapfiftytpcalculator(gapclasslist,gapsizelist,openlistdf,rangehigh,stopnumbe
         counter = counter + 1
         forgaplist.clear()
         timetracker.clear()
+        opentimetracker.clear()
+        opentimebool = False
         mynum = 0
     return gapfiftytp,gapfiftytpstr,gapfiftytpvalue,gapfiftytptime,timetrackerstr
