@@ -127,5 +127,6 @@ def fiftypercentpositionreverse(gapclasslist,gapsizelist,halvevaluelist,gapclose
         counter = counter + 1
         forgaplist.clear()
         firstPos.clear()
+        timetracker.clear()
         firstpostime.clear()
     return reversehalvehit,reversehalvehitposstr,gapcopenpos,gapcopentime,halvehittimestr

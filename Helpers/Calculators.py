@@ -153,3 +153,59 @@ def gapctpvaluecalc(gapclass,gapsizelist,openlistdf2):
             takeprofitvalue.append('NONE')
         count = count + 1
     return takeprofitvalue
+
+def ftow15pointsaboveopen(pair, openlistdf2,ftowopenpip):
+    checksetUs = False
+    ftowopenvaluelist = []
+    if pair == 'US3030' or pair == 'DE3030':
+        for openvalues in openlistdf2:
+            ftowopenvalue = openvalues + (openvalues * ftowopenpip)
+            ftowopenvaluelist.append(ftowopenvalue)
+        checksetUs = True
+    if not checksetUs:
+        for items in openlistdf2:
+            ftowopenvalue = items + ftowopenpip
+            ftowopenvaluelist.append(ftowopenvalue)
+    return ftowopenvaluelist
+
+def ftow15pointsbelowopen(pair, openlistdf2,ftowopenpip):
+    checksetUs = False
+    ftowopenvaluelist = []
+    if pair == 'US3030' or pair == 'DE3030':
+        for openvalues in openlistdf2:
+            ftowopenvalue = openvalues - (openvalues * ftowopenpip)
+            ftowopenvaluelist.append(ftowopenvalue)
+        checksetUs = True
+    if not checksetUs:
+        for items in openlistdf2:
+            ftowopenvalue = items + ftowopenpip
+            ftowopenvaluelist.append(ftowopenvalue)
+    return ftowopenvaluelist
+
+def ftowpositivetakeprofitvalue(pair, openlistdf2, ftowopenpip):
+    checksetUs = False
+    ftowtpvaluelist = []
+    if pair == 'US3030' or pair == 'DE3030':
+        for openvalues in openlistdf2:
+            ftowtpvalue = openvalues + (3 * (openvalues * ftowopenpip))
+            ftowtpvaluelist.append(ftowtpvalue)
+        checksetUs = True
+    if not checksetUs:
+        for items in openlistdf2:
+            ftowtpvalue = items + (ftowopenpip*3)
+            ftowtpvaluelist.append(ftowtpvalue)
+    return ftowtpvalue
+
+def ftownegativetakeprofitvalue(pair, openlistdf2, ftowopenpip):
+    checksetUs = False
+    ftowtpvaluelist = []
+    if pair == 'US3030' or pair == 'DE3030':
+        for openvalues in openlistdf2:
+            ftowtpvalue = openvalues - (3 * (openvalues * ftowopenpip))
+            ftowtpvaluelist.append(ftowtpvalue)
+        checksetUs = True
+    if not checksetUs:
+        for items in openlistdf2:
+            ftowtpvalue = items - (ftowopenpip*3)
+            ftowtpvaluelist.append(ftowtpvalue)
+    return ftowtpvalue

@@ -3,6 +3,7 @@
 # recieves all the variable named below. Dont be lazy just read.
 
 def gapIdentifyer(pair, gapsizes, mydate, gapsizenumber, negativegapsizenumber):
+    print('GAPFIFTYID verifyer call received')
     count = 0
     gapindetifyer = []
     if pair == 'DE3030' or pair == 'US3030':

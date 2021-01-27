@@ -30,6 +30,7 @@ def gapcprofitlosscalc(gapcopenpos,
     tpposcheckrun = []
     tpposcheckrunbool = False
     count = 0
+    print(' GAPC profit loss calculator call received')
 
     for items in gapcopenpos:
         if items != 'NONE':

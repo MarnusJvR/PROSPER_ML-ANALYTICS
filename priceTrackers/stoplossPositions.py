@@ -61,5 +61,6 @@ def checkStopLossPositions(gapclasslist, gapsizelist, rangehigh, stoplist, low, 
         gapB = False
         counter = counter + 1
         forgaplist.clear()
+        timetracker.clear()
         mynum = 0
     return customstopstr, timetrackerstr

@@ -12,6 +12,9 @@ from priceTrackers import gapFiftyTakeProfitPositions
 from priceTrackers import gapcTakeProfitPositions
 from Functions import gapcProfitLoss
 from Functions import gapfiftyProfitLoss
+from priceTrackers import ftowPositiveOpenPositions
+from priceTrackers import ftowNegativeOpenPositions
+from Functions import ftowDirectionIdentifyer
 
 
 # -----LIST OF VARIABLES-----:
@@ -105,6 +108,11 @@ from Functions import gapfiftyProfitLoss
 # 18. Check if price price reached Take Profit for GAPFIFTY
 # 19. Determine when GAPFIFTY strategy opened (GAPFIFTY IFENTIFYER)
 # 20. Determine GAPC take profit values
+# 21. GAPC take profit positions
+# 22. Calculate Profit for GAPC
+# 23.Calculate profitloss for gapfifty
+# 24. Check FTOW price levels
+# 25. FTOW Price Trackers
 
 
 def readDataframe(pair):
@@ -276,14 +284,20 @@ def readDataframe(pair):
     #
     # 19. Determine when GAPFIFTY strategy opened (GAPFIFTY IFENTIFYER)
     #
+    print('--------------------------------')
+    print('Calling the GAPFIFTYID verifyer')
     gapFiftyID = Calculators.gapfiftyidentifyer(gapfiftyOpenPos, gapCloseNum)
     #
     # 20. Determine GAPC take profit values
     #
+    print('--------------------------------')
+    print('Calling the GAPCTAKEPROFITVALUE CALCULATOR verifyer')
     gapcTakeProfitValue = Calculators.gapctpvaluecalc(gapClass, gapSizeList, openValueListDf2)
     #
     # 21. GAPC take profit positions
     #
+    print('--------------------------------')
+    print('Calling the GAPCTAKEPROFIT POSITION CALCULATOR ')
     gapcTpPos, gapcTpPosStr, gapcTpTime, gapcTpTimeStr = gapcTakeProfitPositions.gapctakeprofitposcalculator(gapClass,
                                                                                                              gapSizeList,
                                                                                                              gapcTakeProfitValue,
@@ -295,6 +309,8 @@ def readDataframe(pair):
     #
     # 22. Calculate Profit for GAPC
     #
+    print('--------------------------------')
+    print('Calling the GAPC profit loss calculator ')
     gapcProfitLossList, gapcObjectList = gapcProfitLoss.gapcprofitlosscalc(gapcOpenPos,
                                                                            halveGapValue,
                                                                            gapcStoplossValueList,
@@ -309,31 +325,12 @@ def readDataframe(pair):
                                                                            gapcOpenTimeFalse,
                                                                            gapcTpTime,
                                                                            gapcStoplossTimeStrings)
-    print('----------------------------GAPC TESTING------------------------------------------------')
-    for items in gapcObjectList:
-        if items != 'NONE':
-            print('--------------------')
-            print(items.block)
-            print(items.date)
-            print(items.name)
-            print(items.profitloss)
-            print('rvalue ' + str(items.rvalue))
-            print('gapclosepos ' + str(items.gapclosepos))
-            print('gapcopenpos ' + str(items.gapcopenpos))
-            print('tpvalue ' + str(items.tpvalue))
-            print('slvalue ' + str(items.slvalue))
-            print('tppos ' + str(items.tppos))
-            print('slpos ' + str(items.slpos))
-            print('gapclosetime ' + str(items.gapclosetime))
-            print('gapcopentime ' + str(items.gapcopentime))
-            print('takeprofittime ' + str(items.takeprofittime))
-            print('Stoploss time' + items.stoplossstime)
-            print('Comment ' + items.comment)
-            print('--------------------')
-    print('----------------------------END------------------------------------------------')
+
     #
     # 23.Calculate profitloss for gapfifty
     #
+    print('--------------------------------')
+    print('Calling the GAPFIFTY profit loss calculator ')
     gapfiftyObjectList, gapFiftyprofitLossList = gapfiftyProfitLoss.gapfiftyprofitlosscalculator(gapfiftyOpenPos,
                                                                                                  gapFiftyID,
                                                                                                  openValueListDf2,
@@ -348,31 +345,80 @@ def readDataframe(pair):
                                                                                                  gapFiftyOpenTime,
                                                                                                  halveHitTimeStr,
                                                                                                  gapFiftyStoplossTimeStrings)
+    #
+    # 24. Check FTOW price levels
+    #
+    print('--------------------------------')
+    print('Calling all FTOW price level calculators')
+    ftowPipConstant = pipValues.ftowopenpip(pair)
+    ftowPositiveOpenValue = Calculators.ftow15pointsaboveopen(pair, openValueListDf2, ftowPipConstant)
+    ftowNegativeOpenValue = Calculators.ftow15pointsbelowopen(pair, openValueListDf2, ftowPipConstant)
+    ftowPositiveTakeProfiteValue = Calculators.ftowpositivetakeprofitvalue(pair, openValueListDf2, ftowPipConstant)
+    ftowNegativeTakeProfitValue = Calculators.ftownegativetakeprofitvalue(pair, openValueListDf2, ftowPipConstant)
+    #
+    # 25. FTOW Price Trackers. I use the same function to determin open and takeprofit levels
+    #
+    print('--------------------------------')
+    print('Calling all FTOW price trackers')
+    ftowPositiveOpenHit,ftowPositiveOpenHitPos, ftowPositiveOpenHitTimeStr, ftowPositiveOpenHitPosStr, ftowPositiveOpenHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
+                                                                                                                                                                                          ftowPositiveOpenValue,
+                                                                                                                                                                                          rangeHigh,
+                                                                                                                                                                                          stopNumber,
+                                                                                                                                                                                          High,
+                                                                                                                                                                                          myTime)
+    ftowNegativeOpenHit, ftowNegativeOpenHitPos, ftowNegativeOpenHitTimeStr, ftowNegativeOpenHitPosStr, ftowNegativeOpenHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
+                                                                                                                                                                                          ftowNegativeOpenValue,
+                                                                                                                                                                                          rangeHigh,
+                                                                                                                                                                                          stopNumber,
+                                                                                                                                                                                          Low,
+                                                                                                                                                                                          myTime)
+    ftowPositiveTPHit,ftowPositiveTPHitPos, ftowPositiveTPHitTimeStr, ftowPositiveTPHitPosStr, ftowPositiveTPHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
+                                                                                                                                                                               ftowPositiveTakeProfiteValue,
+                                                                                                                                                                               rangeHigh,
+                                                                                                                                                                               stopNumber,
+                                                                                                                                                                               High,
+                                                                                                                                                                               myTime)
+    ftowNegativeTPHit, ftowNegativeTPHitPos, ftowNegativeTPHitTimeStr, ftowNegativeTPHitPosStr, ftowNegativeTPnHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
+                                                                                                                                                                                 ftowNegativeTakeProfitValue,
+                                                                                                                                                                                 rangeHigh,
+                                                                                                                                                                                 stopNumber,
+                                                                                                                                                                                 High,
+                                                                                                                                                                                 myTime)
+    #
+    # 26. FTOW: Is it up or Down?
+    #
+    ftowDirectionIdList, ftowTradeOpenPosition, ftowTradeOpenTime = ftowDirectionIdentifyer.directionidentifyer(myDate,
+                                                                                                                ftowNegativeOpenHitPos,
+                                                                                                                ftowPositiveOpenHitPos,
+                                                                                                                ftowPositiveOpenHitTime,
+                                                                                                                ftowNegativeOpenHitTime)
+    #
+    # 26. FTOW: SL positions? I again use the same functions as for open and TP but just in inverse. Positive trade will
+    # go down to hit TP
+    #
+    ftowPositiveSLHit, ftowPositiveSLHitPos, ftowPositiveSLHitTimeStr, ftowPositiveSLHitPosStr, ftowPositiveSLHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
+                                                                                                                                                                                 openValueListDf2,
+                                                                                                                                                                                 rangeHigh,
+                                                                                                                                                                                 stopNumber,
+                                                                                                                                                                                 High,
+                                                                                                                                                                                 myTime)
 
-    print('----------------------------GAPC FIFTY------------------------------------------------')
-    for items in gapfiftyObjectList:
-        if items != 'NONE':
-            print('--------------------')
-            print(items.block)
-            print(items.date)
-            print(items.name)
-            print(items.profitloss)
-            print('rvalue' + str(items.rvalue))
-            print('fiftypercentvalue ' + str(items.fiftypercentvalue))
-            print('fiftypercentpos ' + str(items.fiftypercentpos))
-            print('gapopenvalue ' + str(items.gapopenvalue))
-            print('tradeopenpos ' + str(items.tradeopenpos))
-            print('slvalue ' + str(items.slvalue))
-            print('tpvalue ' + str(items.tpvalue))
-            print('SLPOS ' + str(items.slpos))
-            print('tppos ' + str(items.tppos))
-            print('gapfiftytptime ' + str(items.gapfiftytptime))
-            print('gapFiftyOpenTime ' + str(items.gapFiftyOpenTime))
-            print('halvehittime ' + str(items.halvehittime))
-            print('stoplosstimstr ' + items.stoplosstimstr)
-            print('comment ' + items.comment)
-            print('--------------------')
-    print('----------------------------END------------------------------------------------')
+    ftowNegativeSLHit, ftowNegativeSLHitPos, ftowNegativeSLHitTimeStr, ftowNegativeSLHitPosStr, ftowNegativeSLHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
+                                                                                                                                                                               openValueListDf2,
+                                                                                                                                                                               rangeHigh,
+                                                                                                                                                                               stopNumber,
+                                                                                                                                                                               High,
+                                                                                                                                                                               myTime)
+    #
+    # 27. FTOW: Profit Loss Functions
+    #
+
+
+
+
+
+
+
 
 
     df2["GAP_CLASS"] = gapClass

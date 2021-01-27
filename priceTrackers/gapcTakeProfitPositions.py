@@ -1,3 +1,5 @@
+
+print(' GAPCTAKE PROFITVALUE CALCULATOR call received')
 def gapctakeprofitposcalculator(gapclasslist,
                                 gapsizelist,
                                 gapctakeprofitvalue,
@@ -16,6 +18,7 @@ def gapctakeprofitposcalculator(gapclasslist,
     opentimebool = False
     tptime = []
     counter = 0
+    print(' GAPCTAKEPR OFITVALUE CALCULATOR call received')
     for gaps in gapclasslist:
         gapsizeCheck = gapsizelist[counter]
         reverseTP = gapctakeprofitvalue[counter]

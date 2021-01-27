@@ -72,3 +72,37 @@ class gapfiftyTradeObjects:
         self.halvehittime = halvehittime
         self.stoplosstimstr = stoplosstimstr
         self.comment = comment
+
+
+class ftowobjectcreator:
+    def __init__(self,
+                 block,
+                 name,
+                 date,
+                 profitLoss,
+                 rvalue,
+                 openvalue,
+                 openposition,
+                 opentime,
+                 TPvalue,
+                 TPposition,
+                 TPtime,
+                 SLvalue,
+                 SLpos,
+                 SLtime,
+                 comment):
+        self.block = block
+        self.name = name
+        self.date = date
+        self.profitloss = profitLoss
+        self.rvalue = rvalue
+        self.openvalue = openvalue
+        self.openposition = openposition
+        self.opentime = opentime
+        self.TPvalue = TPvalue
+        self.TPposition = TPposition
+        self.TPtime = TPtime
+        self.SLvalue = SLvalue
+        self.SLpos = SLpos
+        self.SLtime = SLtime
+        self.comment = comment

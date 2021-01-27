@@ -70,5 +70,6 @@ def fiftypercentpositions(gapclasslist,gapsizelist,halvegapvalues,rangehigh,stop
         gapB = False
         counter = counter + 1
         forgaplist.clear()
+        timetracker.clear()
         mynum = 0
     return halveHitPosStr,halvehittimestr,halvehit, halvehitpos

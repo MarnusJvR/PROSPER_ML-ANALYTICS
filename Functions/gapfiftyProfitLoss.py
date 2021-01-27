@@ -12,6 +12,7 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
     forCheckMom = []
     gapfiftyprofitloss = []
     gapfiftytradeobjectlist = []
+    print(' GAPFIFTY  profit loss calculator call received')
     for items in gapfiftyopenpos:
         if gapfiftyidentifyer[count] == 'GAPFIFTY':
             #
