@@ -14,6 +14,10 @@ def ftowpositiveopenpositionscalc(mydate,
     timetracker = []
     gapB = False
     counter = 0
+    print(str(len(mydate)))
+    print(str(len(relevanpricevaluelist)))
+    print(str(len(high)))
+    print(str(len(high)))
     for dates in mydate:
         # Monday= 0 Tuesday = 1 Wednesday = 2 Thursday = 3 Friday = 4
         # We want closing on 4 ! opening on 0 ? !
@@ -38,6 +42,7 @@ def ftowpositiveopenpositionscalc(mydate,
                 hitpos.append(mynum)
                 mynum2 = timetracker[0]
                 hitime.append(mynum2)
+                timestr = ''
                 for timestrings in timetracker:
                     timestr = timestr + timestrings + ','
                 hittimestr.append(timestr)
@@ -54,6 +59,9 @@ def ftowpositiveopenpositionscalc(mydate,
             hitime.append('NONE')
         gapB = False
         counter = counter + 1
+        total = 417336
+        perc = counter / total * 100
+        print('Loading Positive Open Positions.........'+str(perc)+'%')
         forgaplist.clear()
         timetracker.clear()
         mynum = 0

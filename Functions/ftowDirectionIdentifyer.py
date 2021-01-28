@@ -1,5 +1,6 @@
 def directionidentifyer(mydate, downhitpos, uphitpos, uphittime, downhittime):
     # TODO: I must still add the logic that stops positive if negative is triggired ect
+    print(' FTOW direction tracker received')
     counter = 0
     directionid = []
     openpos = []
@@ -7,10 +8,11 @@ def directionidentifyer(mydate, downhitpos, uphitpos, uphittime, downhittime):
     for dates in mydate:
         # Monday= 0 Tuesday = 1 Wednesday = 2 Thursday = 3 Friday = 4
         # We want closing on 4 ! opening on 0 ? !
+        # If positive is triggered then negative is deactivated
         weekday = dates.weekday()
         if weekday == 0:
             # check what was hit first
-            if uphitpos[counter] == 'NONE' and downhitpos[counter] == 'NONE':
+            if uphitpos[counter] != 'NONE' and downhitpos[counter] != 'NONE':
                 if uphitpos[counter] > downhitpos[counter]:
                     directionid.append('Positive')
                     openpos.append(uphitpos[counter])

@@ -1,20 +1,12 @@
 import pandas
 from globalVariables import pipValues
-from Helpers import extractors
-from Helpers import Calculators
-from Helpers import gapIdentifyer
-from priceTrackers import gapClosing
-from priceTrackers import stoplossPositions
-from priceTrackers import fiftyPercentGapPositions
-from priceTrackers import fiftyPercentGapReversePositions
-from priceTrackers import priceMoveThroughGapOpenPositions
-from priceTrackers import gapFiftyTakeProfitPositions
-from priceTrackers import gapcTakeProfitPositions
-from Functions import gapcProfitLoss
-from Functions import gapfiftyProfitLoss
-from priceTrackers import ftowPositiveOpenPositions
-from priceTrackers import ftowNegativeOpenPositions
-from Functions import ftowDirectionIdentifyer
+from Helpers import extractors, Calculators, gapIdentifyer
+from priceTrackers import gapClosing,stoplossPositions, fiftyPercentGapPositions, fiftyPercentGapReversePositions, \
+    priceMoveThroughGapOpenPositions, gapFiftyTakeProfitPositions,gapcTakeProfitPositions, ftowPositiveOpenPositions,\
+    ftowNegativeOpenPositions
+from Functions import gapcProfitLoss, gapfiftyProfitLoss, ftowDirectionIdentifyer, ftowProfitLoss, ftowProfitLossCalc
+
+
 
 
 # -----LIST OF VARIABLES-----:
@@ -113,6 +105,10 @@ from Functions import ftowDirectionIdentifyer
 # 23.Calculate profitloss for gapfifty
 # 24. Check FTOW price levels
 # 25. FTOW Price Trackers
+# 26. FTOW: SL positions? I again use the same functions as for open and TP but just in inverse. Positive trade will
+#     go down to hit TP
+# 27. FTOW: Profit Loss Functions
+
 
 
 def readDataframe(pair):
@@ -358,64 +354,99 @@ def readDataframe(pair):
     #
     # 25. FTOW Price Trackers. I use the same function to determin open and takeprofit levels
     #
-    print('--------------------------------')
-    print('Calling all FTOW price trackers')
-    ftowPositiveOpenHit,ftowPositiveOpenHitPos, ftowPositiveOpenHitTimeStr, ftowPositiveOpenHitPosStr, ftowPositiveOpenHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
-                                                                                                                                                                                          ftowPositiveOpenValue,
-                                                                                                                                                                                          rangeHigh,
-                                                                                                                                                                                          stopNumber,
-                                                                                                                                                                                          High,
-                                                                                                                                                                                          myTime)
-    ftowNegativeOpenHit, ftowNegativeOpenHitPos, ftowNegativeOpenHitTimeStr, ftowNegativeOpenHitPosStr, ftowNegativeOpenHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
-                                                                                                                                                                                          ftowNegativeOpenValue,
-                                                                                                                                                                                          rangeHigh,
-                                                                                                                                                                                          stopNumber,
-                                                                                                                                                                                          Low,
-                                                                                                                                                                                          myTime)
-    ftowPositiveTPHit,ftowPositiveTPHitPos, ftowPositiveTPHitTimeStr, ftowPositiveTPHitPosStr, ftowPositiveTPHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
-                                                                                                                                                                               ftowPositiveTakeProfiteValue,
-                                                                                                                                                                               rangeHigh,
-                                                                                                                                                                               stopNumber,
-                                                                                                                                                                               High,
-                                                                                                                                                                               myTime)
-    ftowNegativeTPHit, ftowNegativeTPHitPos, ftowNegativeTPHitTimeStr, ftowNegativeTPHitPosStr, ftowNegativeTPnHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
-                                                                                                                                                                                 ftowNegativeTakeProfitValue,
-                                                                                                                                                                                 rangeHigh,
-                                                                                                                                                                                 stopNumber,
-                                                                                                                                                                                 High,
-                                                                                                                                                                                 myTime)
+    # print(str(len(Low)))
+    # print(str(len(gapfiftyObjectList)))
+    # print('--------------------------------')
+    # print('Calling all FTOW positive open hit tracker')
+    # ftowPositiveOpenHit,ftowPositiveOpenHitPos, ftowPositiveOpenHitTimeStr, ftowPositiveOpenHitPosStr, ftowPositiveOpenHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
+    #                                                                                                                                                                                       ftowPositiveOpenValue,
+    #                                                                                                                                                                                       rangeHigh,
+    #                                                                                                                                                                                       stopNumber,
+    #                                                                                                                                                                                       High,
+    #                                                                                                                                                                                       myTime)
+    # print('--------------------------------')
+    # print('Calling all FTOW negative open hit tracker')
+    # ftowNegativeOpenHit, ftowNegativeOpenHitPos, ftowNegativeOpenHitTimeStr, ftowNegativeOpenHitPosStr, ftowNegativeOpenHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
+    #                                                                                                                                                                                       ftowNegativeOpenValue,
+    #                                                                                                                                                                                       rangeHigh,
+    #                                                                                                                                                                                       stopNumber,
+    #                                                                                                                                                                                       Low,
+    #                                                                                                                                                                                       myTime)
+    # print('--------------------------------')
+    # print('Calling all FTOW positive TP hit tracker')
+    # ftowPositiveTPHit,ftowPositiveTPHitPos, ftowPositiveTPHitTimeStr, ftowPositiveTPHitPosStr, ftowPositiveTPHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
+    #                                                                                                                                                                            ftowPositiveTakeProfiteValue,
+    #                                                                                                                                                                            rangeHigh,
+    #                                                                                                                                                                            stopNumber,
+    #                                                                                                                                                                            High,
+    #                                                                                                                                                                            myTime)
+    # print('--------------------------------')
+    # print('Calling all FTOW negative TP hit tracker')
+    # ftowNegativeTPHit, ftowNegativeTPHitPos, ftowNegativeTPHitTimeStr, ftowNegativeTPHitPosStr, ftowNegativeTPnHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
+    #                                                                                                                                                                              ftowNegativeTakeProfitValue,
+    #                                                                                                                                                                              rangeHigh,
+    #                                                                                                                                                                              stopNumber,
+    #                                                                                                                                                                              High,
+    #                                                                                                                                                                              myTime)
     #
     # 26. FTOW: Is it up or Down?
     #
-    ftowDirectionIdList, ftowTradeOpenPosition, ftowTradeOpenTime = ftowDirectionIdentifyer.directionidentifyer(myDate,
-                                                                                                                ftowNegativeOpenHitPos,
-                                                                                                                ftowPositiveOpenHitPos,
-                                                                                                                ftowPositiveOpenHitTime,
-                                                                                                                ftowNegativeOpenHitTime)
+    # print('--------------------------------')
+    # print('Calling all FTOW direction tracker')
+    # ftowDirectionIdList, ftowTradeOpenPosition, ftowTradeOpenTime = ftowDirectionIdentifyer.directionidentifyer(myDate,
+    #                                                                                                             ftowNegativeOpenHitPos,
+    #                                                                                                             ftowPositiveOpenHitPos,
+    #                                                                                                             ftowPositiveOpenHitTime,
+    #                                                                                                             ftowNegativeOpenHitTime)
     #
     # 26. FTOW: SL positions? I again use the same functions as for open and TP but just in inverse. Positive trade will
     # go down to hit TP
     #
-    ftowPositiveSLHit, ftowPositiveSLHitPos, ftowPositiveSLHitTimeStr, ftowPositiveSLHitPosStr, ftowPositiveSLHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
-                                                                                                                                                                                 openValueListDf2,
-                                                                                                                                                                                 rangeHigh,
-                                                                                                                                                                                 stopNumber,
-                                                                                                                                                                                 High,
-                                                                                                                                                                                 myTime)
-
-    ftowNegativeSLHit, ftowNegativeSLHitPos, ftowNegativeSLHitTimeStr, ftowNegativeSLHitPosStr, ftowNegativeSLHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
-                                                                                                                                                                               openValueListDf2,
-                                                                                                                                                                               rangeHigh,
-                                                                                                                                                                               stopNumber,
-                                                                                                                                                                               High,
-                                                                                                                                                                               myTime)
+    # print('--------------------------------')
+    # print('Calling all FTOW SL Positive tracker')
+    # ftowPositiveSLHit, ftowPositiveSLHitPos, ftowPositiveSLHitTimeStr, ftowPositiveSLHitPosStr, ftowPositiveSLHitTime = ftowNegativeOpenPositions.ftownegativeopenpositionscalc(myDate,
+    #                                                                                                                                                                              openValueListDf2,
+    #                                                                                                                                                                              rangeHigh,
+    #                                                                                                                                                                              stopNumber,
+    #                                                                                                                                                                              High,
+    #                                                                                                                                                                              myTime)
+    #
+    # print('--------------------------------')
+    # print('Calling all FTOW SL Negatve tracker')
+    # ftowNegativeSLHit, ftowNegativeSLHitPos, ftowNegativeSLHitTimeStr, ftowNegativeSLHitPosStr, ftowNegativeSLHitTime = ftowPositiveOpenPositions.ftowpositiveopenpositionscalc(myDate,
+    #                                                                                                                                                                            openValueListDf2,
+    #                                                                                                                                                                            rangeHigh,
+    #                                                                                                                                                                            stopNumber,
+    #                                                                                                                                                                            High,
+    #                                                                                                                                                                            myTime)
     #
     # 27. FTOW: Profit Loss Functions
     #
-
-
-
-
+    # print('--------------------------------')
+    # print('Calling all FTOW profit loss calc')
+    # objects = ftowProfitLoss.ftowprofitlossCalculator(myDate,
+    #                                                   ftowDirectionIdentifyer,
+    #                                                   ftowPositiveTakeProfiteValue,
+    #                                                   ftowPositiveTPHitPos,
+    #                                                   ftowPositiveOpenHitTime,
+    #                                                   ftowPositiveOpenValue,
+    #                                                   ftowPositiveOpenHitPos,
+    #                                                   ftowPositiveOpenHitTime,
+    #                                                   openValueListDf2,
+    #                                                   ftowPositiveSLHitPos,
+    #                                                   ftowPositiveSLHitTime,
+    #                                                   ftowPositiveSLHitPosStr,
+    #                                                   ftowNegativeTakeProfitValue,
+    #                                                   ftowNegativeTPHitPos,
+    #                                                   ftowNegativeTPnHitTime,
+    #                                                   ftowNegativeOpenValue,
+    #                                                   ftowNegativeOpenPositions,
+    #                                                   ftowNegativeOpenHitTime,
+    #                                                   openValueListDf2,
+    #                                                   ftowNegativeSLHitPos,
+    #                                                   ftowNegativeSLHitTime,
+    #                                                   ftowNegativeSLHitPosStr
+    #                                                   )
 
 
 

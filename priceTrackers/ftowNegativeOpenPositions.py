@@ -4,7 +4,7 @@ def ftownegativeopenpositionscalc(mydate,
                                   stopnumber,
                                   low,
                                   mytime):
-    print('ftow positive open position calculator call recieved')
+    print('ftow negative open position calculator call recieved')
     HitPosStr = []
     hit = []
     hitpos = []
@@ -38,6 +38,7 @@ def ftownegativeopenpositionscalc(mydate,
                 hitpos.append(mynum)
                 mynum2 = timetracker[0]
                 hitime.append(mynum2)
+                timestr = ''
                 for timestrings in timetracker:
                     timestr = timestr + timestrings + ','
                 hittimestr.append(timestr)
@@ -54,6 +55,9 @@ def ftownegativeopenpositionscalc(mydate,
             hitime.append('NONE')
         gapB = False
         counter = counter + 1
+        total = 417336
+        perc = counter / total * 100
+        print('Loading Negative Open Positions........' + str(perc) + '%')
         forgaplist.clear()
         timetracker.clear()
         mynum = 0
