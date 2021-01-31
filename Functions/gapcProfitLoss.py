@@ -15,7 +15,8 @@ def gapcprofitlosscalc(gapcopenpos,
                        gapclosetime,
                        gapcopentime,
                        takeprofittime,
-                       stoplosstime):
+                       stoplosstime,
+                       gapsizeList):
     positionsslaftertradeopen = []
     positionsTPaftertradeopen = []
     gapcProfitLoss = []
@@ -112,7 +113,8 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                                   gapcopentime[count],
                                                                                   takeprofittime[count],
                                                                                   stoplosstimenafteropen,
-                                                                                  'take profit position after trade is opened is < than stop loss position after trade is opened')
+                                                                                  'take profit position after trade is opened is < than stop loss position after trade is opened',
+                                                                                  gapsizeList[count])
 
                             gapcTradeObjectList.append(gapcTradeObject)
                             myBool = True
@@ -138,7 +140,7 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                                   'GAPC',
                                                                                   datelistdf2[count],
                                                                                   'Loss',
-                                                                                  0,
+                                                                                  -1,
                                                                                   gapclosenum[count],
                                                                                   gapcopenpos[count],
                                                                                   gapctakeprofitvalue[count],
@@ -149,7 +151,8 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                                   gapcopentime[count],
                                                                                   takeprofittime[count],
                                                                                   stoplosstimenafteropen,
-                                                                                  'stop loss position after trade is opened < take profit position after trade is opened is')
+                                                                                  'stop loss position after trade is opened < take profit position after trade is opened is',
+                                                                                  gapsizeList[count])
                             gapcTradeObjectList.append(gapcTradeObject)
                             myBool = True
                             checkBool = True
@@ -182,7 +185,8 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                                   gapcopentime[count],
                                                                                   takeprofittime[count],
                                                                                   stoplosstimenafteropen,
-                                                                                  'Price hits SL & TP in same candle')
+                                                                                  'Price hits SL & TP in same candle',
+                                                                                  gapsizeList[count])
                             gapcTradeObjectList.append(gapcTradeObject)
                             myBool = True
                             checkBool = True
@@ -225,7 +229,7 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                               'GAPC',
                                                                               datelistdf2[count],
                                                                               'Loss',
-                                                                              0,
+                                                                              -1,
                                                                               gapclosenum[count],
                                                                               gapcopenpos[count],
                                                                               gapctakeprofitvalue[count],
@@ -236,7 +240,8 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                               gapcopentime[count],
                                                                               takeprofittime[count],
                                                                               stoplosstimenafteropen,
-                                                                              'Price reaches take profit before opening the trade. The trade is opened, but then goes to stop loss after')
+                                                                              'Price reaches take profit before opening the trade. The trade is opened, but then goes to stop loss after',
+                                                                              gapsizeList[count])
                         gapcTradeObjectList.append(gapcTradeObject)
                 else:
                     #
@@ -276,7 +281,7 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                           'GAPC',
                                                                           datelistdf2[count],
                                                                           'Loss',
-                                                                          0,
+                                                                          -1,
                                                                           gapclosenum[count],
                                                                           gapcopenpos[count],
                                                                           gapctakeprofitvalue[count],
@@ -287,7 +292,8 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                           gapcopentime[count],
                                                                           takeprofittime[count],
                                                                           stoplosstimenafteropen,
-                                                                          'No take profit values, but plenty of stop loss values')
+                                                                          'No take profit values, but plenty of stop loss values',
+                                                                          gapsizeList[count])
                     gapcTradeObjectList.append(gapcTradeObject)
                     myBool = True
                     checkBool = True
@@ -323,7 +329,8 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                           gapcopentime[count],
                                                                           takeprofittime[count],
                                                                           stoplosstime[count],
-                                                                          'No value for stop loss, but there are values for take profit')
+                                                                          'No value for stop loss, but there are values for take profit',
+                                                                          gapsizeList[count])
                     gapcTradeObjectList.append(gapcTradeObject)
                     gapcProfitLoss.append(AP)
                     myBool = True
@@ -338,7 +345,7 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                           'GAPC',
                                                                           datelistdf2[count],
                                                                           'Undetermined',
-                                                                          rvalue,
+                                                                          0,
                                                                           gapclosenum[count],
                                                                           gapcopenpos[count],
                                                                           gapctakeprofitvalue[count],
@@ -349,7 +356,8 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                           gapcopentime[count],
                                                                           takeprofittime[count],
                                                                           stoplosstime[count],
-                                                                          'No values for stop loss or take profit. Price just dicked around')
+                                                                          'No values for stop loss or take profit. Price just dicked around',
+                                                                          gapsizeList[count])
                     gapcTradeObjectList.append(gapcTradeObject)
                     myBool = True
                     checkBool = True

@@ -15,11 +15,12 @@ class gapcTradeObjects:
                  gapcopentime,
                  takeprofittime,
                  stoplossstime,
-                 comment):
+                 comment,
+                 gapsize):
         self.block = block
         self.name = name
         self.date = date
-        self.profitloss = profitLoss
+        self.profitLoss = profitLoss
         self.rvalue = rvalue
         self.gapclosepos = gapclosepos
         self.gapcopenpos = gapcopenpos
@@ -32,6 +33,7 @@ class gapcTradeObjects:
         self.takeprofittime = takeprofittime
         self.stoplossstime = stoplossstime
         self.comment = comment
+        self.gapsize = gapsize
 
 
 class gapfiftyTradeObjects:
@@ -53,11 +55,12 @@ class gapfiftyTradeObjects:
                  gapFiftyOpenTime,
                  halvehittime,
                  stoplosstimstr,
-                 comment):
+                 comment,
+                 gapsize):
         self.block = block
         self.name = name
         self.date = date
-        self.profitloss = profitLoss
+        self.profitLoss = profitLoss
         self.rvalue = rvalue
         self.fiftypercentvalue = fiftypercentvalue
         self.fiftypercentpos = fiftypercentpos
@@ -72,6 +75,8 @@ class gapfiftyTradeObjects:
         self.halvehittime = halvehittime
         self.stoplosstimstr = stoplosstimstr
         self.comment = comment
+        self.gapsize = gapsize
+
 
 
 class ftowobjectcreator:

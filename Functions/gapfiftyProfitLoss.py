@@ -1,7 +1,21 @@
 from Helpers import extractors
 from Helpers import objectConstructors
 
-def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenvalue, stoplossvalue, takeprofitvalue, stoplosstr, takeprofitstr, datelistdf2, halvegapvalue, halvehitpos, gapfiftytptime, gapFiftyOpenTime, halveHitTimeStr, gapfiftystoplosstimestrings):
+def gapfiftyprofitlosscalculator(gapfiftyopenpos,
+                                 gapfiftyidentifyer,
+                                 gapopenvalue,
+                                 stoplossvalue,
+                                 takeprofitvalue,
+                                 stoplosstr,
+                                 takeprofitstr,
+                                 datelistdf2,
+                                 halvegapvalue,
+                                 halvehitpos,
+                                 gapfiftytptime,
+                                 gapFiftyOpenTime,
+                                 halveHitTimeStr,
+                                 gapfiftystoplosstimestrings,
+                                 gapsizelist):
     # I am leaving Capital letter warnings
     # Re-coding will take to long and it does not effect outcome
     count = 0
@@ -67,7 +81,7 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                     gapfiftyTradeObject = objectConstructors.gapfiftyTradeObjects('Block 1.0','gapfifty',
                                                                                   datelistdf2[count],
                                                                                   'LOSS',
-                                                                                  0,
+                                                                                  -1,
                                                                                   halvegapvalue[count],
                                                                                   halvehitpos[count],
                                                                                   gapopenvalue[count],
@@ -80,7 +94,8 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                                                                                   gapFiftyOpenTime[count],
                                                                                   halvehittime,
                                                                                   gapfiftystoplosstimestrings[count],
-                                                                                  ' We have no value for take profit but plenty values for sl')
+                                                                                  ' We have no value for take profit but plenty values for sl',
+                                                                                  gapsizelist[count])
                     myBool = True
                     gapfiftytradeobjectlist.append(gapfiftyTradeObject)
                     # here i kno that there no value for TP but there is for SL
@@ -96,7 +111,7 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                         halvehittime = halvehittimelist[0]
                         gapfiftyprofitloss.append('LOSS')
                         gapfiftyTradeObject = objectConstructors.gapfiftyTradeObjects('Block 2.0','gapfifty', datelistdf2[count], 'LOSS',
-                                                                                      0, halvegapvalue[count],
+                                                                                      -1, halvegapvalue[count],
                                                                                       halvehitpos[count],
                                                                                       gapopenvalue[count],
                                                                                       gapfiftyopenpos[count],
@@ -107,8 +122,9 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                                                                                       gapfiftytptime[count],
                                                                                       gapFiftyOpenTime[count],
                                                                                       halvehittime,
-                                                                                      gapfiftystoplosstimestrings[
-                                                                                          count],'Stop loss position is < than Take profit position')
+                                                                                      gapfiftystoplosstimestrings[count],
+                                                                                      'Stop loss position is < than Take profit position',
+                                                                                      gapsizelist[count])
                         gapfiftytradeobjectlist.append(gapfiftyTradeObject)
                     if stopLossPosList[0] > forCheckTP2[0]:
                         #
@@ -131,7 +147,8 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                                                                                       gapFiftyOpenTime[count],
                                                                                       halvehittime,
                                                                                       gapfiftystoplosstimestrings[
-                                                                                          count],'Take profit position is < than stop loss position')
+                                                                                          count],'Take profit position is < than stop loss position',
+                                                                                      gapsizelist[count])
                         gapfiftytradeobjectlist.append(gapfiftyTradeObject)
                     if stopLossPosList[0] == forCheckTP2[0]:
                         #
@@ -141,7 +158,7 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                         halvehittimelist = extractors.stringdtimextractor(halveHitTimeStr[count])
                         halvehittime = halvehittimelist[0]
                         gapfiftyTradeObject = objectConstructors.gapfiftyTradeObjects('Block 4.0','gapfifty', datelistdf2[count], 'SIM',
-                                                                                      0, halvegapvalue[count],
+                                                                                      -1, halvegapvalue[count],
                                                                                       halvehitpos[count],
                                                                                       gapopenvalue[count],
                                                                                       gapfiftyopenpos[count],
@@ -152,7 +169,8 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                                                                                       gapFiftyOpenTime[count],
                                                                                       halvehittime,
                                                                                       gapfiftystoplosstimestrings[
-                                                                                          count],' simtrade is when tp and sl is triggered in same candle')
+                                                                                          count],' simtrade is when tp and sl is triggered in same candle',
+                                                                                      gapsizelist[count])
                         gapfiftytradeobjectlist.append(gapfiftyTradeObject)
                 else:
                     # if TakeProfitstr was NONE
@@ -167,7 +185,7 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                         halvehittimelist = extractors.stringdtimextractor(halveHitTimeStr[count])
                         halvehittime = halvehittimelist[0]
                         gapfiftyTradeObject = objectConstructors.gapfiftyTradeObjects('Block 5.0','gapfifty', datelistdf2[count], 'LOSS',
-                                                                                      0, halvegapvalue[count],
+                                                                                      -1, halvegapvalue[count],
                                                                                       halvehitpos[count],
                                                                                       gapopenvalue[count],
                                                                                       gapfiftyopenpos[count],
@@ -179,7 +197,8 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                                                                                       gapFiftyOpenTime[count],
                                                                                       halvehittime,
                                                                                       gapfiftystoplosstimestrings[
-                                                                                          count],'Trade where price reached TP before open and lost after')
+                                                                                          count],'Trade where price reached TP before open and lost after',
+                                                                                      gapsizelist[count])
                         gapfiftytradeobjectlist.append(gapfiftyTradeObject)
             else:
                 # now we kno there no value for SL but there might be a value for TP
@@ -216,7 +235,8 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                                                                                       halvehittime,
                                                                                       gapfiftystoplosstimestrings[
                                                                                           count],
-                                                                                      'there is no value for sl and a value for tp')
+                                                                                      'there is no value for sl and a value for tp',
+                                                                                      gapsizelist[count])
                         gapfiftytradeobjectlist.append(gapfiftyTradeObject)
                     else:
                         # here we say there is no value for SL
@@ -228,8 +248,12 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                         myBool = True
                         halvehittimelist = extractors.stringdtimextractor(halveHitTimeStr[count])
                         halvehittime = halvehittimelist[0]
-                        gapfiftyTradeObject = objectConstructors.gapfiftyTradeObjects('Block 7.0','gapfifty', datelistdf2[count], 'UNDETERMINED',
-                                                                                      Rvalue, halvegapvalue[count],
+                        gapfiftyTradeObject = objectConstructors.gapfiftyTradeObjects('Block 7.0',
+                                                                                      'gapfifty',
+                                                                                      datelistdf2[count],
+                                                                                      'UNDETERMINED',
+                                                                                      Rvalue,
+                                                                                      halvegapvalue[count],
                                                                                       halvehitpos[count],
                                                                                       gapopenvalue[count],
                                                                                       gapfiftyopenpos[count],
@@ -242,7 +266,8 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                                                                                       halvehittime,
                                                                                       gapfiftystoplosstimestrings[
                                                                                           count],
-                                                                                      'No values for tp and sl')
+                                                                                      'No values for tp and sl',
+                                                                                      gapsizelist[count])
                         gapfiftytradeobjectlist.append(gapfiftyTradeObject)
                 else:
                     #
@@ -267,7 +292,8 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
                                                                                   halvehittime,
                                                                                   gapfiftystoplosstimestrings[
                                                                                       count],
-                                                                                  'No values for tp and sl')
+                                                                                  'No values for tp and sl',
+                                                                                  gapsizelist[count])
                     gapfiftytradeobjectlist.append(gapfiftyTradeObject)
         else:
             gapfiftyprofitloss.append('NONE')
@@ -284,4 +310,4 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos, gapfiftyidentifyer, gapopenval
         count = count + 1
         mistake = 0
         mistakestr = ''
-    return gapfiftytradeobjectlist,gapfiftyprofitloss
+    return gapfiftytradeobjectlist, gapfiftyprofitloss

@@ -53,6 +53,7 @@ def fiftypercentpositions(gapclasslist,gapsizelist,halvegapvalues,rangehigh,stop
                     halveHitPosStr.append('NONE')
                 else:
                     mynum = forgaplist[0]
+                    timestr = ''
                     for timestrings in timetracker:
                         timestr = timestr + timestrings + ','
                     halvehittimestr.append(timestr)

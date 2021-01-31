@@ -9,20 +9,33 @@ from datetime import datetime
 import datetime
 
 def dateStringExtractor(dateList):
+    # some dates are like this: 2015/01/02
+    # others are like this: 2015.01.02
     print('date extractor call recieved`')
     timeStringList = []
     dateStringList = []
     finalDateStr = ''
+    # Take the first date to check what the date format is
+    date= dateList[1]
+    dateSt = date[:10]
+    dateBool = False
+    for letters in dateSt:
+        if letters == '/':
+            dateBool = True
+
     for items in dateList:
         dateString = items[:10]
         # Currently date is in this format: 2020/08/03
         # I need it in this format:2004.06.17
-        for letters in dateString:
-            if letters != '/':
-                finalDateStr = finalDateStr + letters
-            else:
-                finalDateStr = finalDateStr + '.'
-        dateStringList.append(finalDateStr)
+        if dateBool:
+            for letters in dateString:
+                if letters != '/':
+                    finalDateStr = finalDateStr + letters
+                else:
+                    finalDateStr = finalDateStr + '.'
+            dateStringList.append(finalDateStr)
+        else:
+            dateStringList.append(dateString)
         timeString = items[11:]
         timeStringList.append(timeString)
         finalDateStr = ''
@@ -30,7 +43,7 @@ def dateStringExtractor(dateList):
     dateformated = []
     print('processing....')
     for dates in dateStringList:
-        print('...')
+        print(dates)
         new_date_object = datetime.datetime.strptime(dates, '%Y.%m.%d').date()
         dateformated.append(new_date_object)
     return timeStringList, dateformated

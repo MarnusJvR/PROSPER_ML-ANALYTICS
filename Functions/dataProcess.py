@@ -4,7 +4,8 @@ from Helpers import extractors, Calculators, gapIdentifyer
 from priceTrackers import gapClosing,stoplossPositions, fiftyPercentGapPositions, fiftyPercentGapReversePositions, \
     priceMoveThroughGapOpenPositions, gapFiftyTakeProfitPositions,gapcTakeProfitPositions, ftowPositiveOpenPositions,\
     ftowNegativeOpenPositions
-from Functions import gapcProfitLoss, gapfiftyProfitLoss, ftowDirectionIdentifyer, ftowProfitLoss, ftowProfitLossCalc
+from Functions import gapcProfitLoss, gapfiftyProfitLoss, ftowDirectionIdentifyer, ftowProfitLoss, \
+    ftowProfitLossCalc,analyticsDataFrames
 
 
 
@@ -320,7 +321,8 @@ def readDataframe(pair):
                                                                            gapCloseTime,
                                                                            gapcOpenTimeFalse,
                                                                            gapcTpTime,
-                                                                           gapcStoplossTimeStrings)
+                                                                           gapcStoplossTimeStrings,
+                                                                           gapSizeList)
 
     #
     # 23.Calculate profitloss for gapfifty
@@ -340,7 +342,8 @@ def readDataframe(pair):
                                                                                                  gapfiftytptime,
                                                                                                  gapFiftyOpenTime,
                                                                                                  halveHitTimeStr,
-                                                                                                 gapFiftyStoplossTimeStrings)
+                                                                                                 gapFiftyStoplossTimeStrings,
+                                                                                                 gapSizeList)
     #
     # 24. Check FTOW price levels
     #
@@ -447,11 +450,9 @@ def readDataframe(pair):
     #                                                   ftowNegativeSLHitTime,
     #                                                   ftowNegativeSLHitPosStr
     #                                                   )
-
-
-
-
-
+    # Calling Data Frames
+    gapcTotalsDataFrame, gapcTradeObjectsDataFrame = analyticsDataFrames.gapcDataFrameCreator(pair,gapcObjectList)
+    gapFiftyTotalsDataFrame, gapFiftyTradeObjectsDataFrame = analyticsDataFrames.gapFiftyAnal(pair, gapfiftyObjectList)
     df2["GAP_CLASS"] = gapClass
     df2['Reverse_Halve_Hit'] = reverseHalveHit
     df2['reverseHalveHitPosstr'] = reverseHalveHitPosstr
@@ -472,5 +473,4 @@ def readDataframe(pair):
     df2['GAP50_SL_TIMES'] = gapFiftyStoplossTimeStrings
     df2['GAPC_SL_POSITIONS'] = gapcStoplossPositions
     df2['GAPC_SL_TIMES'] = gapcStoplossTimeStrings
-
-    return actualDateList
+    return gapcTotalsDataFrame, gapcTradeObjectsDataFrame, gapFiftyTotalsDataFrame, gapFiftyTradeObjectsDataFrame

@@ -63,6 +63,7 @@ def gapctakeprofitposcalculator(gapclasslist,
                     if counter + i < stopnumber:
                         if low[counter + i] <= reverseTP:
                             forgaplist.append(i)
+                            openpos = gapcopenpos[counter]
                             if openpos != 'NONE':
                                 if i > openpos:
                                     opentime = mytime[counter + i]
