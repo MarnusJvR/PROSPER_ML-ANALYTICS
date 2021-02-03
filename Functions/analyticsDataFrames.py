@@ -174,6 +174,7 @@ def gapcDataFrameCreator(pair,tradeobjectlist):
         return winrateret
 
     winrateTotal = profit / total * 100
+
     totalTuple = (
     'Total', 'Block 1.0', 'Block 2.0', 'Block 3.0', 'Block 4.0', 'Block 5.0', 'Block 6.0', 'Block 7.0', 'Block 8.0')
     winrateTotal1 = calcrate(profit1, total1)
@@ -194,49 +195,11 @@ def gapcDataFrameCreator(pair,tradeobjectlist):
     totalTuple7 = (
     winrateTotal, winrateTotal1, winrateTotal2, winrateTotal3, winrateTotal4, winrateTotal5, winrateTotal6,
     winrateTotal7, winrateTotal7)
+    pairTupple = (pair, pair, pair, pair, pair, pair, pair, pair)
 
 
-
-
-    # winrateTotal = profit/total*100
-    # totalTuple = ('Total',total,profit,loss,sim,un,rvalueCalc,winrateTotal)
-    # if total1 != 0:
-    #     winrateTotal1 = profit1 / total1 * 100
-    # else:
-    #     winrateTotal1 = 0
-    # totalTuple1 = ('Block 1.0', total1, profit1, loss1, sim1, un1, rvalueCalc1, winrateTotal1)
-    # if total2 != 0:
-    #     winrateTotal2 = profit2 / total2 * 100
-    # else:
-    #     winrateTotal2 = 0
-    # totalTuple2 = ('Block 2.0', total2, profit2, loss2, sim2, un2, rvalueCalc2, winrateTotal2)
-    # if total3 != 0:
-    #     winrateTotal3 = profit3 / total3 * 100
-    # else:
-    #     winrateTotal3 = 0
-    # totalTuple3 = ('Block 3.0', total3, profit3, loss3, sim3, un3, rvalueCalc3, winrateTotal3)
-    # if total4 != 0:
-    #     winrateTotal4 = profit4 / total4 * 100
-    # else:
-    #     winrateTotal4 = 0
-    # totalTuple4 = ('Block 4.0', total4, profit4, loss4, sim4, un4, rvalueCalc4, winrateTotal4)
-    # if total5 != 0:
-    #     winrateTotal5 = profit5 / total5 * 100
-    # else:
-    #     winrateTotal5 = 0
-    # totalTuple5 = ('Block 5.0', total5, profit5, loss5, sim5, un5, rvalueCalc5, winrateTotal5)
-    # if total6 != 0:
-    #     winrateTotal6 = profit6 / total6 * 100
-    # else:
-    #     winrateTotal6 = 0
-    # totalTuple6 = ('Block 6.0', total6, profit6, loss6, sim6, un6, rvalueCalc6, winrateTotal6)
-    # if total7 != 0:
-    #     winrateTotal7 = profit7 / total7 * 100
-    # else:
-    #     winrateTotal7 = 0
-    # totalTuple7 = ('Block 7.0', total7, profit7, loss7, sim7, un7, rvalueCalc7, winrateTotal7)
-    data_tuples = list(zip(totalTuple, totalTuple1,totalTuple2,totalTuple3,totalTuple4,totalTuple5,totalTuple6,totalTuple7))
-    totalsDf = pandas.DataFrame(data_tuples, columns=['Name','Total','Profit','Loss','Sim','Un','R-value','Win Rate %'])
+    data_tuples = list(zip(totalTuple, totalTuple1,totalTuple2,totalTuple3,totalTuple4,totalTuple5,totalTuple6,totalTuple7,pairTupple))
+    totalsDf = pandas.DataFrame(data_tuples, columns=['Name','Total','Profit','Loss','Sim','Un','R-value','Win Rate %','Pair'])
     return(totalsDf,dfGapcTradeObjects)
 
 
@@ -446,28 +409,11 @@ def gapFiftyAnal(pair,tradeobjectlist):
     totalTuple5 = (un, un1, un2, un3, un4, un5, un6, un7,un8)
     totalTuple6 = (rvalueCalc, rvalueCalc1, rvalueCalc2, rvalueCalc3, rvalueCalc4, rvalueCalc5, rvalueCalc6, rvalueCalc7,rvalueCalc8)
     totalTuple7 = (winrateTotal, winrateTotal1, winrateTotal2, winrateTotal3, winrateTotal4, winrateTotal5, winrateTotal6, winrateTotal7, winrateTotal7)
+    pairTupple = (pair, pair, pair, pair, pair, pair, pair, pair)
 
 
-    # winrateTotal = profit/total*100
-    # totalTuple = ('Total',total,profit,loss,sim,un,rvalueCalc,winrateTotal)
-    # winrateTotal1 = calcrate(profit1,total1)
-    # totalTuple1 = ('Block 1.0', total1, profit1, loss1, sim1, un1, rvalueCalc1, winrateTotal1)
-    # winrateTotal2 = calcrate(profit2,total2)
-    # totalTuple2 = ('Block 2.0', total2, profit2, loss2, sim2, un2, rvalueCalc2, winrateTotal2)
-    # winrateTotal3 = calcrate(profit3,total3)
-    # totalTuple3 = ('Block 3.0', total3, profit3, loss3, sim3, un3, rvalueCalc3, winrateTotal3)
-    # winrateTotal4 = calcrate(profit4,total4)
-    # totalTuple4 = ('Block 4.0', total4, profit4, loss4, sim4, un4, rvalueCalc4, winrateTotal4)
-    # winrateTotal5 = calcrate(profit5,total5)
-    # totalTuple5 = ('Block 5.0', total5, profit5, loss5, sim5, un5, rvalueCalc5, winrateTotal5)
-    # winrateTotal6 = calcrate(profit6,total6)
-    # totalTuple6 = ('Block 6.0', total6, profit6, loss6, sim6, un6, rvalueCalc6, winrateTotal6)
-    # winrateTotal7 = calcrate(profit7,total7)
-    # totalTuple7 = ('Block 7.0', total7, profit7, loss7, sim7, un7, rvalueCalc7, winrateTotal7)
-    # winrateTotal8 = calcrate(profit8,total8)
-    # totalTuple8 = ('Block 8.0', total8, profit8, loss8, sim8, un8, rvalueCalc8, winrateTotal8)
-    data_tuples = list(zip(totalTuple, totalTuple1,totalTuple2,totalTuple3,totalTuple4,totalTuple5,totalTuple6,totalTuple7))
-    totalsDf = pandas.DataFrame(data_tuples, columns=['Name','Total','Profit','Loss','Sim','Un','R-value','Win Rate %'])
+    data_tuples = list(zip(totalTuple, totalTuple1,totalTuple2,totalTuple3,totalTuple4,totalTuple5,totalTuple6,totalTuple7,pairTupple))
+    totalsDf = pandas.DataFrame(data_tuples, columns=['Name','Total','Profit','Loss','Sim','Un','R-value','Win Rate %','Pair'])
     print(totalsDf)
     return(totalsDf,dfGapcTradeObjects)
 

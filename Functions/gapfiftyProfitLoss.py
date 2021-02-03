@@ -40,9 +40,9 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos,
             # only have gapfifty take profit values for instances where price goes to that value
             if takeprofitvalue[count] != 'NONE':
                 takeProfitSize = openvalue - takeprofitvalue[count]
-            if takeProfitSize < 0:
-                takeProfitSize = takeProfitSize * -1
-            Rvalue = (takeProfitSize / stoplossSize)
+                if takeProfitSize < 0:
+                    takeProfitSize = takeProfitSize * -1
+                Rvalue = (takeProfitSize / stoplossSize)
             #
             # Algo
             #
@@ -279,7 +279,7 @@ def gapfiftyprofitlosscalculator(gapfiftyopenpos,
                     halvehittime = halvehittimelist[0]
                     gapfiftyTradeObject = objectConstructors.gapfiftyTradeObjects('Block 8.0','gapfifty', datelistdf2[count],
                                                                                   'UNDETERMINED',
-                                                                                  Rvalue, halvegapvalue[count],
+                                                                                  0, halvegapvalue[count],
                                                                                   halvehitpos[count],
                                                                                   gapopenvalue[count],
                                                                                   gapfiftyopenpos[count],

@@ -11,7 +11,7 @@ def setPipValues(pair):
 
     if not checkset:
         testval = pair[3:]
-        if testval == 'JPY':
+        if testval == 'JPY' or testval == 'PY1':
             stoploss = 0.15
             negativegapsizesetnumber = -0.15
             gapsizesetnumber = 0.15

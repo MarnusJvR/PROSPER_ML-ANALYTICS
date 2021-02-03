@@ -135,6 +135,25 @@ def gapcidentifyer(gapclosenum,reversehalvehit,reversehalvehitposstr,reversehalv
         halveBoon = False
     return gapcid,gapcopentime,gapcopenposition
 
+def gapctpvaluecalcRvalues(gapclass,gapsize, stoploss,rvalue,halvegapvalue):
+    takeprofitvalueR = []
+    tp = 0
+    count = 0
+    for gaps in gapclass:
+        if gaps == 'GAP':
+            # this is how far away the tp must be from open
+            tp = stoploss * rvalue
+            if gapsize[count] < 0:
+                tp = tp * -1
+            takeprofitvalue = halvegapvalue[count] + tp
+            takeprofitvalueR.append(takeprofitvalue)
+        else:
+            takeprofitvalueR.append('NONE')
+        count = count + 1
+    return takeprofitvalueR
+
+
+
 def gapctpvaluecalc(gapclass,gapsizelist,openlistdf2):
     # Calculate the take profit values for GAPC based on 2R return
     # I add gapsize value to gap open value

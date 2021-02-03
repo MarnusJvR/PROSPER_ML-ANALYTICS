@@ -290,6 +290,12 @@ def readDataframe(pair):
     print('--------------------------------')
     print('Calling the GAPCTAKEPROFITVALUE CALCULATOR verifyer')
     gapcTakeProfitValue = Calculators.gapctpvaluecalc(gapClass, gapSizeList, openValueListDf2)
+    gapcTakeProfitValueR2 =Calculators.gapctpvaluecalcRvalues(gapClass,gapSizeList,stoploss,2,halveGapValue)
+    gapcTakeProfitValueR3 = Calculators.gapctpvaluecalcRvalues(gapClass, gapSizeList, stoploss, 3, halveGapValue)
+    gapcTakeProfitValueR5 = Calculators.gapctpvaluecalcRvalues(gapClass, gapSizeList, stoploss, 5, halveGapValue)
+    gapcTakeProfitValueR10 = Calculators.gapctpvaluecalcRvalues(gapClass, gapSizeList, stoploss, 10, halveGapValue)
+    gapcTakeProfitValueR100 = Calculators.gapctpvaluecalcRvalues(gapClass, gapSizeList, stoploss, 100, halveGapValue)
+
     #
     # 21. GAPC take profit positions
     #
@@ -303,6 +309,64 @@ def readDataframe(pair):
                                                                                                              Low, High,
                                                                                                              myTime,
                                                                                                              gapcOpenPos)
+    gapcTpPos2, gapcTpPosStr2, gapcTpTime2, gapcTpTimeStr2 = gapcTakeProfitPositions.gapctakeprofitposcalculator(gapClass,
+                                                                                                             gapSizeList,
+                                                                                                             gapcTakeProfitValueR2,
+                                                                                                             rangeHigh,
+                                                                                                             stopNumber,
+                                                                                                             Low, High,
+                                                                                                             myTime,
+                                                                                                             gapcOpenPos)
+    gapcTpPos3, gapcTpPosStr3, gapcTpTime3, gapcTpTimeStr3 = gapcTakeProfitPositions.gapctakeprofitposcalculator(
+        gapClass,
+        gapSizeList,
+        gapcTakeProfitValueR3,
+        rangeHigh,
+        stopNumber,
+        Low, High,
+        myTime,
+        gapcOpenPos)
+
+    gapcTpPos5, gapcTpPosStr5, gapcTpTime5, gapcTpTimeStr5 = gapcTakeProfitPositions.gapctakeprofitposcalculator(
+        gapClass,
+        gapSizeList,
+        gapcTakeProfitValueR5,
+        rangeHigh,
+        stopNumber,
+        Low, High,
+        myTime,
+        gapcOpenPos)
+
+    gapcTpPos5, gapcTpPosStr5, gapcTpTime5, gapcTpTimeStr5 = gapcTakeProfitPositions.gapctakeprofitposcalculator(
+        gapClass,
+        gapSizeList,
+        gapcTakeProfitValueR5,
+        rangeHigh,
+        stopNumber,
+        Low, High,
+        myTime,
+        gapcOpenPos)
+
+    gapcTpPos10, gapcTpPosStr10, gapcTpTime10, gapcTpTimeStr10 = gapcTakeProfitPositions.gapctakeprofitposcalculator(
+        gapClass,
+        gapSizeList,
+        gapcTakeProfitValueR10,
+        rangeHigh,
+        stopNumber,
+        Low, High,
+        myTime,
+        gapcOpenPos)
+
+    gapcTpPos100, gapcTpPosStr100, gapcTpTime100, gapcTpTimeStr100 = gapcTakeProfitPositions.gapctakeprofitposcalculator(
+        gapClass,
+        gapSizeList,
+        gapcTakeProfitValueR100,
+        rangeHigh,
+        stopNumber,
+        Low, High,
+        myTime,
+        gapcOpenPos)
+
     #
     # 22. Calculate Profit for GAPC
     #
@@ -321,6 +385,85 @@ def readDataframe(pair):
                                                                            gapCloseTime,
                                                                            gapcOpenTimeFalse,
                                                                            gapcTpTime,
+                                                                           gapcStoplossTimeStrings,
+                                                                           gapSizeList)
+
+    gapcProfitLossList2R, gapcObjectList2R = gapcProfitLoss.gapcprofitlosscalc(gapcOpenPos,
+                                                                           halveGapValue,
+                                                                           gapcStoplossValueList,
+                                                                           gapcTpPos2,
+                                                                           gapcTakeProfitValueR2,
+                                                                           gapcStoplossPositions,
+                                                                           gapcTpPosStr2,
+                                                                           dateListdf2,
+                                                                           gapCloseNum,
+                                                                           gapCloseStr,
+                                                                           gapCloseTime,
+                                                                           gapcOpenTimeFalse,
+                                                                           gapcTpTime2,
+                                                                           gapcStoplossTimeStrings,
+                                                                           gapSizeList)
+
+    gapcProfitLossList3R, gapcObjectList3R = gapcProfitLoss.gapcprofitlosscalc(gapcOpenPos,
+                                                                           halveGapValue,
+                                                                           gapcStoplossValueList,
+                                                                           gapcTpPos3,
+                                                                           gapcTakeProfitValueR3,
+                                                                           gapcStoplossPositions,
+                                                                           gapcTpPosStr3,
+                                                                           dateListdf2,
+                                                                           gapCloseNum,
+                                                                           gapCloseStr,
+                                                                           gapCloseTime,
+                                                                           gapcOpenTimeFalse,
+                                                                           gapcTpTime3,
+                                                                           gapcStoplossTimeStrings,
+                                                                           gapSizeList)
+    gapcProfitLossList5R, gapcObjectList5R = gapcProfitLoss.gapcprofitlosscalc(gapcOpenPos,
+                                                                           halveGapValue,
+                                                                           gapcStoplossValueList,
+                                                                           gapcTpPos5,
+                                                                           gapcTakeProfitValueR5,
+                                                                           gapcStoplossPositions,
+                                                                           gapcTpPosStr5,
+                                                                           dateListdf2,
+                                                                           gapCloseNum,
+                                                                           gapCloseStr,
+                                                                           gapCloseTime,
+                                                                           gapcOpenTimeFalse,
+                                                                           gapcTpTime5,
+                                                                           gapcStoplossTimeStrings,
+                                                                           gapSizeList)
+
+    gapcProfitLossList10R, gapcObjectList10R = gapcProfitLoss.gapcprofitlosscalc(gapcOpenPos,
+                                                                           halveGapValue,
+                                                                           gapcStoplossValueList,
+                                                                           gapcTpPos10,
+                                                                           gapcTakeProfitValueR10,
+                                                                           gapcStoplossPositions,
+                                                                           gapcTpPosStr10,
+                                                                           dateListdf2,
+                                                                           gapCloseNum,
+                                                                           gapCloseStr,
+                                                                           gapCloseTime,
+                                                                           gapcOpenTimeFalse,
+                                                                           gapcTpTime10,
+                                                                           gapcStoplossTimeStrings,
+                                                                           gapSizeList)
+
+    gapcProfitLossList100R, gapcObjectList100R = gapcProfitLoss.gapcprofitlosscalc(gapcOpenPos,
+                                                                           halveGapValue,
+                                                                           gapcStoplossValueList,
+                                                                           gapcTpPos100,
+                                                                           gapcTakeProfitValueR100,
+                                                                           gapcStoplossPositions,
+                                                                           gapcTpPosStr100,
+                                                                           dateListdf2,
+                                                                           gapCloseNum,
+                                                                           gapCloseStr,
+                                                                           gapCloseTime,
+                                                                           gapcOpenTimeFalse,
+                                                                           gapcTpTime100,
                                                                            gapcStoplossTimeStrings,
                                                                            gapSizeList)
 
@@ -349,11 +492,11 @@ def readDataframe(pair):
     #
     print('--------------------------------')
     print('Calling all FTOW price level calculators')
-    ftowPipConstant = pipValues.ftowopenpip(pair)
-    ftowPositiveOpenValue = Calculators.ftow15pointsaboveopen(pair, openValueListDf2, ftowPipConstant)
-    ftowNegativeOpenValue = Calculators.ftow15pointsbelowopen(pair, openValueListDf2, ftowPipConstant)
-    ftowPositiveTakeProfiteValue = Calculators.ftowpositivetakeprofitvalue(pair, openValueListDf2, ftowPipConstant)
-    ftowNegativeTakeProfitValue = Calculators.ftownegativetakeprofitvalue(pair, openValueListDf2, ftowPipConstant)
+    # ftowPipConstant = pipValues.ftowopenpip(pair)
+    # ftowPositiveOpenValue = Calculators.ftow15pointsaboveopen(pair, openValueListDf2, ftowPipConstant)
+    # ftowNegativeOpenValue = Calculators.ftow15pointsbelowopen(pair, openValueListDf2, ftowPipConstant)
+    # ftowPositiveTakeProfiteValue = Calculators.ftowpositivetakeprofitvalue(pair, openValueListDf2, ftowPipConstant)
+    # ftowNegativeTakeProfitValue = Calculators.ftownegativetakeprofitvalue(pair, openValueListDf2, ftowPipConstant)
     #
     # 25. FTOW Price Trackers. I use the same function to determin open and takeprofit levels
     #
@@ -451,7 +594,32 @@ def readDataframe(pair):
     #                                                   ftowNegativeSLHitPosStr
     #                                                   )
     # Calling Data Frames
+
     gapcTotalsDataFrame, gapcTradeObjectsDataFrame = analyticsDataFrames.gapcDataFrameCreator(pair,gapcObjectList)
+    gapcTotalsDataFrame2R, gapcTradeObjectsDataFrame2R = analyticsDataFrames.gapcDataFrameCreator(pair, gapcObjectList2R)
+    gapcTotalsDataFrame3R, gapcTradeObjectsDataFrame3R = analyticsDataFrames.gapcDataFrameCreator(pair,
+                                                                                                  gapcObjectList3R)
+    gapcTotalsDataFrame5R, gapcTradeObjectsDataFrame5R = analyticsDataFrames.gapcDataFrameCreator(pair,
+                                                                                                  gapcObjectList5R)
+    gapcTotalsDataFrame10R, gapcTradeObjectsDataFrame10R = analyticsDataFrames.gapcDataFrameCreator(pair,
+                                                                                                  gapcObjectList10R)
+    gapcTotalsDataFrame100R, gapcTradeObjectsDataFrame100R = analyticsDataFrames.gapcDataFrameCreator(pair,
+                                                                                                  gapcObjectList100R)
+    gapcTotalsDataFramePrint = [gapcTotalsDataFrame,
+                                gapcTotalsDataFrame2R,
+                                gapcTotalsDataFrame3R,
+                                gapcTotalsDataFrame5R,
+                                gapcTotalsDataFrame10R,
+                                gapcTotalsDataFrame100R]
+    gapcTotalsDataFrameSend = pandas.concat(gapcTotalsDataFramePrint)
+    gapcTradeObjectPrint = [gapcTradeObjectsDataFrame,
+                            gapcTradeObjectsDataFrame2R,
+                            gapcTradeObjectsDataFrame3R,
+                            gapcTradeObjectsDataFrame5R,
+                            gapcTradeObjectsDataFrame10R,
+                            gapcTradeObjectsDataFrame100R]
+    gapcTradeObjectSend = pandas.concat(gapcTradeObjectPrint)
+
     gapFiftyTotalsDataFrame, gapFiftyTradeObjectsDataFrame = analyticsDataFrames.gapFiftyAnal(pair, gapfiftyObjectList)
     df2["GAP_CLASS"] = gapClass
     df2['Reverse_Halve_Hit'] = reverseHalveHit
@@ -473,4 +641,4 @@ def readDataframe(pair):
     df2['GAP50_SL_TIMES'] = gapFiftyStoplossTimeStrings
     df2['GAPC_SL_POSITIONS'] = gapcStoplossPositions
     df2['GAPC_SL_TIMES'] = gapcStoplossTimeStrings
-    return gapcTotalsDataFrame, gapcTradeObjectsDataFrame, gapFiftyTotalsDataFrame, gapFiftyTradeObjectsDataFrame
+    return gapcTotalsDataFrameSend, gapcTradeObjectSend, gapFiftyTotalsDataFrame, gapFiftyTradeObjectsDataFrame

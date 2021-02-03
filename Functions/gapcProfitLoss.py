@@ -45,6 +45,8 @@ def gapcprofitlosscalc(gapcopenpos,
             # only have gapc take profit positions for instances where price goes to that value
             if gapctppos[count] != 'NONE':
                 takeProfitSize = openv - gapctakeprofitvalue[count]
+            # so i only want to do this calculation when price actually goes through tp
+            takeProfitSize = 0
             if takeProfitSize < 0:
                 takeProfitSize = takeProfitSize * -1
             rvalue = (takeProfitSize / stoplossSize)
@@ -350,7 +352,7 @@ def gapcprofitlosscalc(gapcopenpos,
                                                                           gapcopenpos[count],
                                                                           gapctakeprofitvalue[count],
                                                                           gapcstoplossval[count],
-                                                                          positionsTPaftertradeopen[0],
+                                                                          'NONE',
                                                                           gapcstoplossposstr[count],
                                                                           gapclosetime[count],
                                                                           gapcopentime[count],
